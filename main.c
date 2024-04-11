@@ -6,30 +6,21 @@
 /*   By: bkotwica <bkotwica@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 09:35:53 by bkotwica          #+#    #+#             */
-/*   Updated: 2024/04/10 12:55:39 by bkotwica         ###   ########.fr       */
+/*   Updated: 2024/04/11 09:23:37 by bkotwica         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mlx.h"
 #include "fractol.h"
 #include <stdio.h>
 
-void	my_mlx_pixel_put(t_fract *data, int x, int y, int color)
-{
-	char	*dst;
-
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
-}
-
 int	main(void)
 {
-	void	*mlx;
+	void	*mlx_connection;
 	void	*win;
 	//t_fract	img;
 
-	mlx = mlx_init();
-	win = mlx_new_window(mlx, 500, 500, "New window");
+	mlx_connection = mlx_init();
+	win = mlx_new_window(mlx_connection, 500, 500, "New window");
 	//img.img = mlx_new_image(mlx, 500, 300);
 	//img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
 	//my_mlx_pixel_put(&img, 5, 5, 0x00FF0000);
@@ -49,7 +40,9 @@ int	main(void)
 	{
 		j = 20;
 		while (j++ < 100)
-			mlx_pixel_put(mlx, win, j, i,  0xff0000);
+			mlx_pixel_put(mlx_connection, win, j, i,  0xff0000);
 	}
-	mlx_loop(mlx);
+	mlx_loop(mlx_connection);
+	mlx_destroy_display(mlx_connection); // to correct exit to program we have to clode that connecion
+	free(mlx_connection); // we have to free it bcs it is malloced in mlx_init
 }
