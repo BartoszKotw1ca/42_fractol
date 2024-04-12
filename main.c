@@ -6,7 +6,7 @@
 /*   By: bkotwica <bkotwica@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 09:35:53 by bkotwica          #+#    #+#             */
-/*   Updated: 2024/04/11 09:23:37 by bkotwica         ###   ########.fr       */
+/*   Updated: 2024/04/12 21:18:13 by bkotwica         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,17 @@ int	main(void)
 {
 	void	*mlx_connection;
 	void	*win;
-	//t_fract	img;
+	t_fract	*node;
 
+	node = NULL;
+	node = malloc(sizeof(t_fract));
+	//t_fract	img;
+	(*node).i = 0;
+	node->next = malloc(sizeof(t_fract));
+	(*node->next).i = 5;
+	printf("%d %d", node->i, node->next->i);
 	mlx_connection = mlx_init();
-	win = mlx_new_window(mlx_connection, 500, 500, "New window");
+	win = mlx_new_window(mlx_connection, 1000, 800, "New window");
 	//img.img = mlx_new_image(mlx, 500, 300);
 	//img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
 	//my_mlx_pixel_put(&img, 5, 5, 0x00FF0000);
@@ -42,7 +49,9 @@ int	main(void)
 		while (j++ < 100)
 			mlx_pixel_put(mlx_connection, win, j, i,  0xff0000);
 	}
-	mlx_loop(mlx_connection);
+	//mlx_loop(mlx_connection);
 	mlx_destroy_display(mlx_connection); // to correct exit to program we have to clode that connecion
 	free(mlx_connection); // we have to free it bcs it is malloced in mlx_init
 }
+
+//cc main.c mlxlibX/libmlx_Linux.a -lXext -lX11
