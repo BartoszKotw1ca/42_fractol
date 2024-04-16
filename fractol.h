@@ -6,12 +6,15 @@
 /*   By: bkotwica <bkotwica@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 10:09:32 by bkotwica          #+#    #+#             */
-/*   Updated: 2024/04/16 13:02:34 by bkotwica         ###   ########.fr       */
+/*   Updated: 2024/04/16 14:16:58 by bkotwica         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
 #define FRACTOL_H
+
+#define HEIGHT 800
+#define WIDTH 1000
 
 #include "mlxlibX/mlx.h"
 #include <stdlib.h>
@@ -29,12 +32,12 @@ typedef struct s_fract
 	int		endian;
 }			t_fract;
 
-typedef struct	s_fracta
+typedef struct	s_point
 {
 	double			i;
 	double			z;
 	//struct s_fract	*next;
 	// struct s_fract	*prev;
-}			t_fracta;
+}			t_point;
 
 #endif

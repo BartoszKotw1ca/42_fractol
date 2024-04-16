@@ -6,7 +6,7 @@
 /*   By: bkotwica <bkotwica@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 09:35:53 by bkotwica          #+#    #+#             */
-/*   Updated: 2024/04/16 13:25:49 by bkotwica         ###   ########.fr       */
+/*   Updated: 2024/04/16 14:26:52 by bkotwica         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,35 +56,56 @@ int	key_hook(int keycode, t_fract *mlx)
 	return (0);
 }
 
+void draw_mandelbrot(t_fract *mlx)
+{
+    t_point pixel, c, z;
+    t_point z_squared;
+    int max_iter = 1000;
+    int iter;
+    int colors[10] = {0x000000, 0xFF0000, 0x00FF00, 0x0000FF, 0xFFFF00, 0x00FFFF, 0xFF00FF, 0xC0C0C0, 0x808080, 0x800000};
+
+    for (pixel.z = 0; pixel.z < HEIGHT; pixel.z++)
+    {
+        for (pixel.i = 0; pixel.i < WIDTH; pixel.i++)
+        {
+            c.i = (pixel.i - WIDTH / 2.0) * 4.0 / WIDTH;
+            c.z = (pixel.z - HEIGHT / 2.0) * 4.0 / HEIGHT;
+            z = c;
+            z_squared.i = z.i * z.i;
+            z_squared.z = z.z * z.z;
+
+            for (iter = 0; iter < max_iter && ((z_squared.i + z_squared.z) <= 4.0); iter++)
+            {
+                z.z = 2.0 * z.i * z.z + c.z;
+                z.i = z_squared.i - z_squared.z + c.i;
+                z_squared.i = z.i * z.i;
+                z_squared.z = z.z * z.z;
+            }
+
+            if (iter == max_iter)
+                my_mlx_pixel_put(mlx, pixel.i, pixel.z, 0x00FF00); // black for points inside Mandelbrot set
+            else
+                my_mlx_pixel_put(mlx, pixel.i, pixel.z, colors[iter % 10]); // white for points outside the set
+        }
+    }
+}
+
 int	main(void)
 {
 	t_fract	mlx;
 
 	mlx.con = mlx_init();
-	mlx.win = mlx_new_window(mlx.con, 500, 500, "fractal");
-	mlx.img = mlx_new_image(mlx.con, 500, 500);
+	mlx.win = mlx_new_window(mlx.con, WIDTH, HEIGHT, "fractal");
+	mlx.img = mlx_new_image(mlx.con, WIDTH, HEIGHT);
 	mlx.addr = mlx_get_data_addr(mlx.img, &mlx.bits_per_pixel,
 		&mlx.line_length, &mlx.endian);
-	my_mlx_pixel_put(&mlx, 250, 250, 0x00FF0000);
+	draw_mandelbrot(&mlx);
+	//my_mlx_pixel_put(&mlx, WIDTH / 2, HEIGHT / 2, 0x00FF0000);
+
 	mlx_put_image_to_window(mlx.con, mlx.win,
 		mlx.img, 0, 0);
 	mlx_key_hook(mlx.win, key_hook, &mlx);
 	mlx_loop(mlx.con);
-	//mlx_hook(mlx.win, 2, 1L<<0, closee, &mlx);
-	//mlx_loop(mlx.con);
-	//img.img = mlx_new_image(mlx, 500, 300);
-	//img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-	//my_mlx_pixel_put(&img, 5, 5, 0x00FF0000);
-	//mlx_put_image_to_window(mlx, win, img.img, 0, 0);
-	/*
-	for (int y = 0; y < 500; ++y)
-	{
-		for (int x = 0; x < 500; ++x)
-		{
-			mlx_pixel_put(mlx, win, x, y, 0xff0000);
-		}
-	}
-	*/
 	// int	i = 20;
 	// int j = 0;
 	// while (i++ < 200)
