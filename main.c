@@ -6,7 +6,7 @@
 /*   By: bkotwica <bkotwica@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 09:35:53 by bkotwica          #+#    #+#             */
-/*   Updated: 2024/04/16 14:26:52 by bkotwica         ###   ########.fr       */
+/*   Updated: 2024/04/16 16:34:40 by bkotwica         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,6 @@ int	closee(int keycode, t_fract *vars)
 	return (0);
 }
 
-int	key_hook(int keycode, t_fract *mlx)
-{
-	if (keycode == 65307)
-	{
-		mlx_destroy_window(mlx->con, mlx->win);
-		mlx_destroy_display(mlx->con);
-		free(mlx->con);
-		//free(mlx->addr);
-		//free(mlx->img);
-		printf("ESC\n");
-		exit (0);
-	}
-	return (0);
-}
-
 void draw_mandelbrot(t_fract *mlx)
 {
     t_point pixel, c, z;
@@ -68,8 +53,8 @@ void draw_mandelbrot(t_fract *mlx)
     {
         for (pixel.i = 0; pixel.i < WIDTH; pixel.i++)
         {
-            c.i = (pixel.i - WIDTH / 2.0) * 4.0 / WIDTH;
-            c.z = (pixel.z - HEIGHT / 2.0) * 4.0 / HEIGHT;
+            c.i = (pixel.i - WIDTH / 2.0) * 4.0 / WIDTH * mlx->zoom;
+            c.z = (pixel.z - HEIGHT / 2.0) * 4.0 / HEIGHT * mlx->zoom;
             z = c;
             z_squared.i = z.i * z.i;
             z_squared.z = z.z * z.z;
@@ -81,13 +66,38 @@ void draw_mandelbrot(t_fract *mlx)
                 z_squared.i = z.i * z.i;
                 z_squared.z = z.z * z.z;
             }
-
             if (iter == max_iter)
-                my_mlx_pixel_put(mlx, pixel.i, pixel.z, 0x00FF00); // black for points inside Mandelbrot set
+                my_mlx_pixel_put(mlx, pixel.i, pixel.z, 0x00FF00);
             else
-                my_mlx_pixel_put(mlx, pixel.i, pixel.z, colors[iter % 10]); // white for points outside the set
+                my_mlx_pixel_put(mlx, pixel.i, pixel.z, colors[iter % 10]);
         }
     }
+}
+
+int	key_hook(int keycode, t_fract *mlx)
+{
+	if (keycode == 65307)
+	{
+		mlx_destroy_window(mlx->con, mlx->win);
+		mlx_destroy_display(mlx->con);
+		free(mlx->con);
+		//free(mlx->addr);
+		//free(mlx->img);
+		printf("ESC\n");
+		exit (0);
+	}
+	if (keycode == 49)
+	{
+		mlx->zoom /= 2.0;
+		mlx->img = mlx_new_image(mlx->con, WIDTH, HEIGHT);
+		mlx->addr = mlx_get_data_addr(mlx->img, &mlx->bits_per_pixel,
+			&mlx->line_length, &mlx->endian);
+		draw_mandelbrot(mlx);
+		mlx_put_image_to_window(mlx->con, mlx->win,
+			mlx->img, 0, 0);
+	}
+	printf("%d\n", keycode);
+	return (0);
 }
 
 int	main(void)
@@ -95,6 +105,7 @@ int	main(void)
 	t_fract	mlx;
 
 	mlx.con = mlx_init();
+	mlx.zoom = 1.0;
 	mlx.win = mlx_new_window(mlx.con, WIDTH, HEIGHT, "fractal");
 	mlx.img = mlx_new_image(mlx.con, WIDTH, HEIGHT);
 	mlx.addr = mlx_get_data_addr(mlx.img, &mlx.bits_per_pixel,
@@ -105,6 +116,8 @@ int	main(void)
 	mlx_put_image_to_window(mlx.con, mlx.win,
 		mlx.img, 0, 0);
 	mlx_key_hook(mlx.win, key_hook, &mlx);
+	//mlx_mouse_hook(mlx.win, key_hook, &mlx);
+	mlx_loop_hook(mlx.win, key_hook, &mlx);
 	mlx_loop(mlx.con);
 	// int	i = 20;
 	// int j = 0;

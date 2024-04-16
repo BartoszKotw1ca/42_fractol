@@ -6,7 +6,7 @@
 /*   By: bkotwica <bkotwica@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 10:09:32 by bkotwica          #+#    #+#             */
-/*   Updated: 2024/04/16 14:16:58 by bkotwica         ###   ########.fr       */
+/*   Updated: 2024/04/16 15:39:11 by bkotwica         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_fract
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
+	double	zoom;
 }			t_fract;
 
 typedef struct	s_point
