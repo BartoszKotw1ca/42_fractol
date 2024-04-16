@@ -6,7 +6,7 @@
 /*   By: bkotwica <bkotwica@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 09:35:53 by bkotwica          #+#    #+#             */
-/*   Updated: 2024/04/15 15:55:45 by bkotwica         ###   ########.fr       */
+/*   Updated: 2024/04/16 13:25:49 by bkotwica         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,45 +26,52 @@ double	if_in_set(double number)
 		return (1);
 	return (0);
 }
-/*
-double	calculations(double i, double z)
-{
-	int	j = 0;
-	t_fract	*point;
 
-	point = malloc(sizeof(t_fract));
-	(*point).i = 0;
-	(*point).z = 0;
-	point->prev = NULL;
-	point = point->next;
-	while (j ++ <  10)
-	{
-		point = malloc(sizeof(t_fract));
-		if (point = NULL)
-			return (0);
-		(*point).i =  
-		point->
-		point = point->next;
-	}
-	point->next = NULL;
+void	my_mlx_pixel_put(t_fract *data, int x, int y, int color)
+{
+	char	*dst;
+
+	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	*(unsigned int*)dst = color;
 }
-*/
+
+int	closee(int keycode, t_fract *vars)
+{
+	mlx_destroy_window(vars->con, vars->win);
+	return (0);
+}
+
+int	key_hook(int keycode, t_fract *mlx)
+{
+	if (keycode == 65307)
+	{
+		mlx_destroy_window(mlx->con, mlx->win);
+		mlx_destroy_display(mlx->con);
+		free(mlx->con);
+		//free(mlx->addr);
+		//free(mlx->img);
+		printf("ESC\n");
+		exit (0);
+	}
+	return (0);
+}
 
 int	main(void)
 {
-	void	*mlx_connection;
-	void	*win;
-	// t_fract	*node;
+	t_fract	mlx;
 
-	// node = NULL;
-	// node = malloc(sizeof(t_fract));
-	// //t_fract	img;
-	// (*node).i = 0;
-	// node->next = malloc(sizeof(t_fract));
-	// (*node->next).i = 5;
-	// //printf("%d %d", node->i, node->next->i);
-	mlx_connection = mlx_init();
-	win = mlx_new_window(mlx_connection, 1000, 800, "New window");
+	mlx.con = mlx_init();
+	mlx.win = mlx_new_window(mlx.con, 500, 500, "fractal");
+	mlx.img = mlx_new_image(mlx.con, 500, 500);
+	mlx.addr = mlx_get_data_addr(mlx.img, &mlx.bits_per_pixel,
+		&mlx.line_length, &mlx.endian);
+	my_mlx_pixel_put(&mlx, 250, 250, 0x00FF0000);
+	mlx_put_image_to_window(mlx.con, mlx.win,
+		mlx.img, 0, 0);
+	mlx_key_hook(mlx.win, key_hook, &mlx);
+	mlx_loop(mlx.con);
+	//mlx_hook(mlx.win, 2, 1L<<0, closee, &mlx);
+	//mlx_loop(mlx.con);
 	//img.img = mlx_new_image(mlx, 500, 300);
 	//img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
 	//my_mlx_pixel_put(&img, 5, 5, 0x00FF0000);
@@ -78,7 +85,7 @@ int	main(void)
 		}
 	}
 	*/
-	int	i = 20;
+	// int	i = 20;
 	// int j = 0;
 	// while (i++ < 200)
 	// {
@@ -87,27 +94,24 @@ int	main(void)
 	// 		mlx_pixel_put(mlx_connection, win, j, i,  0xff0000);
 	// }
 	//printf("%f", if_in_set(-1.99999));
-	t_fract	point;
-	t_fract	set;
-	double	tmp;
+	// t_fract	point;
+	// t_fract	set;
+	// double	tmp;
 
-	point.i = 0.4;
-	point.z = 0.25;
+	// point.i = 0.4;
+	// point.z = 0.25;
 
-	set.i = 0;
-	set.z = 0;
+	// set.i = 0;
+	// set.z = 0;
 
-	i = 0;
-	while (i ++ < 42)
-	{
-		printf("%f %f \n", set.z, set.i);
-		tmp = (set.z * set.z) - (set.i * set.i);
-		set.i = 2 * set.i * set.z + point.i;
-		set.z = tmp + point.z;
-	}
-	//mlx_loop(mlx_connection);
-	mlx_destroy_display(mlx_connection); // to correct exit to program we have to clode that connecion
-	free(mlx_connection); // we have to free it bcs it is malloced in mlx_init
+	// i = 0;
+	// while (i ++ < 42)
+	// {
+	// 	printf("%f %f \n", set.z, set.i);
+	// 	tmp = (set.z * set.z) - (set.i * set.i);
+	// 	set.i = 2 * set.i * set.z + point.i;
+	// 	set.z = tmp + point.z;
+	// }
 }
 
 //cc main.c mlxlibX/libmlx_Linux.a -lXext -lX11
