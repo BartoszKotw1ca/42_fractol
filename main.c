@@ -6,7 +6,7 @@
 /*   By: bkotwica <bkotwica@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 09:35:53 by bkotwica          #+#    #+#             */
-/*   Updated: 2024/04/16 16:34:40 by bkotwica         ###   ########.fr       */
+/*   Updated: 2024/04/16 18:15:18 by bkotwica         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	closee(int keycode, t_fract *vars)
 	return (0);
 }
 
-void draw_mandelbrot(t_fract *mlx)
+void draw_mandelbrot(t_fract *mlx, int x, int y)
 {
     t_point pixel, c, z;
     t_point z_squared;
@@ -53,8 +53,8 @@ void draw_mandelbrot(t_fract *mlx)
     {
         for (pixel.i = 0; pixel.i < WIDTH; pixel.i++)
         {
-            c.i = (pixel.i - WIDTH / 2.0) * 4.0 / WIDTH * mlx->zoom;
-            c.z = (pixel.z - HEIGHT / 2.0) * 4.0 / HEIGHT * mlx->zoom;
+            c.i = (pixel.i + x - WIDTH) * 4.0 / WIDTH * mlx->zoom;
+            c.z = (pixel.z + y- HEIGHT) * 4.0 / HEIGHT * mlx->zoom;
             z = c;
             z_squared.i = z.i * z.i;
             z_squared.z = z.z * z.z;
@@ -76,6 +76,7 @@ void draw_mandelbrot(t_fract *mlx)
 
 int	key_hook(int keycode, t_fract *mlx)
 {
+	int	x, y;
 	if (keycode == 65307)
 	{
 		mlx_destroy_window(mlx->con, mlx->win);
@@ -88,11 +89,13 @@ int	key_hook(int keycode, t_fract *mlx)
 	}
 	if (keycode == 49)
 	{
-		mlx->zoom /= 2.0;
+		mlx->zoom /= 1.1;
 		mlx->img = mlx_new_image(mlx->con, WIDTH, HEIGHT);
 		mlx->addr = mlx_get_data_addr(mlx->img, &mlx->bits_per_pixel,
 			&mlx->line_length, &mlx->endian);
-		draw_mandelbrot(mlx);
+		mlx_mouse_get_pos(mlx->con, mlx->win, &x, &y);
+		draw_mandelbrot(mlx, x, y);
+		printf("%d %d--\n", x, y);
 		mlx_put_image_to_window(mlx->con, mlx->win,
 			mlx->img, 0, 0);
 	}
@@ -110,9 +113,7 @@ int	main(void)
 	mlx.img = mlx_new_image(mlx.con, WIDTH, HEIGHT);
 	mlx.addr = mlx_get_data_addr(mlx.img, &mlx.bits_per_pixel,
 		&mlx.line_length, &mlx.endian);
-	draw_mandelbrot(&mlx);
-	//my_mlx_pixel_put(&mlx, WIDTH / 2, HEIGHT / 2, 0x00FF0000);
-
+	draw_mandelbrot(&mlx, WIDTH / 2, HEIGHT / 2);
 	mlx_put_image_to_window(mlx.con, mlx.win,
 		mlx.img, 0, 0);
 	mlx_key_hook(mlx.win, key_hook, &mlx);
