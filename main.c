@@ -6,7 +6,7 @@
 /*   By: bkotwica <bkotwica@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 09:35:53 by bkotwica          #+#    #+#             */
-/*   Updated: 2024/04/17 14:28:46 by bkotwica         ###   ########.fr       */
+/*   Updated: 2024/04/17 16:04:33 by bkotwica         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@ void	my_mlx_pixel_put(t_fract *data, int x, int y, int color)
 	char	*dst;
 
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
+	*(unsigned int *)dst = color;
 }
 
+//free(mlx->addr);
+//free(mlx->img);
 void	close_window(t_fract *mlx)
 {
 	mlx_destroy_window(mlx->con, mlx->win);
 	mlx_destroy_display(mlx->con);
 	free(mlx->con);
-	//free(mlx->addr);
-	//free(mlx->img);
 	exit (0);
 }
 
@@ -40,60 +40,65 @@ void	close_window(t_fract *mlx)
 // int b = 13;    /* 13 = 0000 1101 */
 // result = a | b; /* result = 61 = 0011 1101 */
 
-void draw_mandelbrot(t_fract *mlx, int x, int y)
+void	calculation_mandel(t_fract *mlx, t_point *c)
 {
-	t_point pixel, c, z, z_squared;
+	t_point	z;
+	t_point	z_squared;
+
+	z = *c;
+	z_squared.i = z.i * z.i;
+	z_squared.z = z.z * z.z;
+	mlx->i = 0;
+	while (mlx->i < mlx->max_iter && ((z_squared.i + z_squared.z) <= 4.0))
+	{
+		z.z = 2.0 * z.i * z.z + c->z;
+		z.i = z_squared.i - z_squared.z + c->i;
+		z_squared.i = z.i * z.i;
+		z_squared.z = z.z * z.z;
+		mlx->i ++;
+	}
+}
+
+void	draw_mandelbrot(t_fract *mlx, int x, int y)
+{
+	t_point	pixel;
+	t_point	c;
+	t_point	z;
+	t_point	z_squared;
 
 	mlx->i = -1;
 	mlx->max_iter = 1000;
 	pixel.z = -1;
 	while (mlx->i++ < 256)
 		mlx->colors[mlx->i] = (mlx->i << 8);
-
 	while (pixel.z++ < HEIGHT)
 	{
 		pixel.i = -1;
 		while (pixel.i++ < WIDTH)
 		{
 			c.i = (pixel.i + x - WIDTH) * (4.0 / WIDTH) * mlx->zoom;
-			c.z = (pixel.z + y- HEIGHT) * (4.0 / HEIGHT) * mlx->zoom;
-			z = c;
-			z_squared.i = z.i * z.i;
-			z_squared.z = z.z * z.z;
-			mlx-> i = 0;
-			while (mlx->i < mlx->max_iter && ((z_squared.i + z_squared.z) <= 4.0))
-			{
-				z.z = 2.0 * z.i * z.z + c.z;
-				z.i = z_squared.i - z_squared.z + c.i;
-				z_squared.i = z.i * z.i;
-				z_squared.z = z.z * z.z;
-				mlx->i ++;
-			}
+			c.z = (pixel.z + y - HEIGHT) * (4.0 / HEIGHT) * mlx->zoom;
+			calculation_mandel(mlx, &c);
 			if (mlx->i == mlx->max_iter)
 				my_mlx_pixel_put(mlx, pixel.i, pixel.z, 0x000000);
 			else
-				my_mlx_pixel_put(mlx, pixel.i, pixel.z, mlx->colors[mlx->i % 256]);
+				my_mlx_pixel_put(mlx, pixel.i, pixel.z,
+					mlx->colors[mlx->i % 256]);
 		}
 	}
 }
-
-
-// void	draw_mandelbrot(t_fract *mlx, int x, int y)
-// {
-
-// }
 
 void	put_mandelbrot(t_fract *mlx, int x, int y, double zoom)
 {
 	mlx->zoom /= zoom;
 	mlx->img = mlx_new_image(mlx->con, WIDTH, HEIGHT);
 	mlx->addr = mlx_get_data_addr(mlx->img, &mlx->bits_per_pixel,
-		&mlx->line_length, &mlx->endian);
-	// mlx_mouse_get_pos(mlx->con, mlx->win, &x, &y);
+			&mlx->line_length, &mlx->endian);
 	draw_mandelbrot(mlx, x, y);
 	mlx_put_image_to_window(mlx->con, mlx->win,
 		mlx->img, 0, 0);
 }
+
 int	key_hook(int keycode, t_fract *mlx)
 {
 	mlx_mouse_get_pos(mlx->con, mlx->win, &mlx->mouse_x, &mlx->mouse_y);
@@ -119,7 +124,7 @@ void	mandelbrot_program(void)
 	mlx.con = mlx_init();
 	mlx.zoom = 1.0;
 	mlx.center_x = WIDTH / 2;
-	mlx.center_y= HEIGHT / 2;
+	mlx.center_y = HEIGHT / 2;
 	mlx.win = mlx_new_window(mlx.con, WIDTH, HEIGHT, "fractal");
 	put_mandelbrot(&mlx, WIDTH / 2, HEIGHT / 2, 1);
 	mlx_key_hook(mlx.win, key_hook, &mlx);
@@ -127,14 +132,92 @@ void	mandelbrot_program(void)
 	mlx_loop_hook(mlx.win, key_hook, &mlx);
 	mlx_loop(mlx.con);
 }
+// TODO not working
+void	calculation_julia(t_fract *mlx, t_point c)
+{
+	t_point	z;
+	t_point	z_squared;
+
+	mlx->i = 0;
+	while (mlx->i < mlx->max_iter && ((z_squared.i + z_squared.z) <= 4.0))
+	{
+		z.z = 2.0 * z.i * z.z + c.z;
+		z.i = z_squared.i - z_squared.z + c.i;
+		z_squared.i = z.i * z.i;
+		z_squared.z = z.z * z.z;
+		mlx->i++;
+	}
+}
+
+void draw_julia(t_fract *mlx, double x, double y)
+{
+	t_point pixel;
+	t_point z;
+	t_point z_squared;
+	t_point c;
+
+	c.i = x;
+	c.z = y;
+
+	mlx->i = -1;
+	mlx->max_iter = 1000;
+	pixel.z = -1;
+	while (mlx->i++ < 256)
+		mlx->colors[mlx->i] = (mlx->i << 8);
+	while (pixel.z++ < HEIGHT)
+	{
+		pixel.i = -1;
+		while (pixel.i++ < WIDTH)
+		{
+			z.i = (pixel.i - WIDTH / 2.0) * 4.0 / WIDTH;
+			z.z = (pixel.z - HEIGHT / 2.0) * 4.0 / HEIGHT;
+			z_squared.i = z.i * z.i;
+			z_squared.z = z.z * z.z;
+			mlx->i = 0;
+			while (mlx->i < mlx->max_iter && ((z_squared.i + z_squared.z) <= 4.0))
+			{
+				z.z = 2.0 * z.i * z.z + c.z;
+				z.i = z_squared.i - z_squared.z + c.i;
+				z_squared.i = z.i * z.i;
+				z_squared.z = z.z * z.z;
+				mlx->i++;
+			}
+			if (mlx->i == mlx->max_iter)
+				my_mlx_pixel_put(mlx, pixel.i, pixel.z, 0x000000);
+			else
+				my_mlx_pixel_put(mlx, pixel.i, pixel.z, mlx->colors[mlx->i % 256]);
+		}
+	}
+}
+
+void	julia_program()
+{
+	t_fract	mlx;
+
+	mlx.con = mlx_init();
+	mlx.zoom = 1.0;
+	mlx.center_x = WIDTH / 2;
+	mlx.center_y = HEIGHT / 2;
+	mlx.win = mlx_new_window(mlx.con, WIDTH, HEIGHT, "fractal");
+	mlx.img = mlx_new_image(mlx.con, WIDTH, HEIGHT);
+	mlx.addr = mlx_get_data_addr(mlx.img, &mlx.bits_per_pixel,
+			&mlx.line_length, &mlx.endian);
+	draw_julia(&mlx, -0.10, 0.65);
+	mlx_put_image_to_window(mlx.con, mlx.win,
+		mlx.img, 0, 0);
+	// mlx_key_hook(mlx.win, key_hook, &mlx);
+	// mlx_mouse_hook(mlx.win, key_hook, &mlx);
+	// mlx_loop_hook(mlx.win, key_hook, &mlx);
+	mlx_loop(mlx.con);
+}
 
 void	check_data(int argc, char **argv)
 {
-	int	Mandel;
-	int	Julia;
+	int	mandel;
+	int	julia;
 
-	Julia = 74;
-	Mandel = 77;
+	julia = 74;
+	mandel = 77;
 	if (argc <= 1 || argc > 2)
 	{
 		write(1, "!! INVALID DATA !!\n", 20);
@@ -142,8 +225,10 @@ void	check_data(int argc, char **argv)
 		write(1, "J = Julia set\n", 14);
 		exit (0);
 	}
-	else if (argv[1][0] == Mandel && argv[1][1] == '\0')
+	else if (argv[1][0] == mandel && argv[1][1] == '\0')
 		mandelbrot_program();
+	else if (argv[1][0] == julia && argv[1][1] == '\0')
+		julia_program();
 }
 
 int	main(int argc, char **argv)
