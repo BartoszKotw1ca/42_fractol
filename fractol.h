@@ -6,7 +6,7 @@
 /*   By: bkotwica <bkotwica@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 10:09:32 by bkotwica          #+#    #+#             */
-/*   Updated: 2024/04/16 18:15:23 by bkotwica         ###   ########.fr       */
+/*   Updated: 2024/04/17 13:55:26 by bkotwica         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,19 @@ typedef struct s_fract
 	int		line_length;
 	int		endian;
 	double	zoom;
+	int		center_x;
+	int		center_y;
+	int		mouse_x;
+	int		mouse_y;
+	int		i;
+	int		max_iter;
+	int		colors[256];
 }			t_fract;
 
 typedef struct	s_point
 {
 	double			i;
 	double			z;
-	//struct s_fract	*next;
-	// struct s_fract	*prev;
 }			t_point;
 
 #endif
