@@ -6,7 +6,7 @@
 /*   By: bkotwica <bkotwica@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 08:45:21 by bkotwica          #+#    #+#             */
-/*   Updated: 2024/04/18 13:46:52 by bkotwica         ###   ########.fr       */
+/*   Updated: 2024/04/18 13:52:38 by bkotwica         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ int	key_hook_julia(int keycode, t_fract *mlx)
 
 int	closee(int keycode, t_fract *vars)
 {
-	exit(1);
 	mlx_destroy_window(vars->con, vars->win);
 	return (0);
 }
