@@ -6,7 +6,7 @@
 /*   By: bkotwica <bkotwica@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 10:09:32 by bkotwica          #+#    #+#             */
-/*   Updated: 2024/04/17 13:55:26 by bkotwica         ###   ########.fr       */
+/*   Updated: 2024/04/18 12:37:38 by bkotwica         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,13 @@
 #include <stdlib.h>
 #include <math.h>
 #include <unistd.h>
+#include <stdio.h> //DELETE
+
+typedef struct	s_point
+{
+	double	i;
+	double	z;
+}			t_point;
 
 typedef struct s_fract
 {
@@ -38,12 +45,28 @@ typedef struct s_fract
 	int		i;
 	int		max_iter;
 	int		colors[256];
+	t_point	c;
 }			t_fract;
 
-typedef struct	s_point
-{
-	double			i;
-	double			z;
-}			t_point;
+// Utilis
+void	close_window(t_fract *mlx);
+void	my_mlx_pixel_put(t_fract *data, int x, int y, int color);
+int		ft_atoi(const char *nptr);
+double	create_number(char	**argv);
+void	exit_message(void);
+
+// Mandelbrot set
+void	calculation_mandel(t_fract *mlx, t_point *c);
+void	draw_mandelbrot(t_fract *mlx, int x, int y);
+void	put_mandelbrot(t_fract *mlx, int x, int y, double zoom);
+int		key_hook_mandel(int keycode, t_fract *mlx);
+void	mandelbrot_program(void);
+
+// Julia set
+void	calculation_julia(t_fract *mlx, t_point pixel, int x, int y);
+void	draw_julia(t_fract *mlx, int x, int y);
+void	put_julia(t_fract *mlx, int x, int y, double zoom);
+int		key_hook_julia(int keycode, t_fract *mlx);
+void	julia_program(double x, double y);
 
 #endif
