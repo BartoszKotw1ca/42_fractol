@@ -1,6 +1,7 @@
 {
 	"files.associations": {
 		"fractol.h": "c",
-		"unistd.h": "c"
+		"unistd.h": "c",
+		"mlx_int.h": "c"
 	}
 }

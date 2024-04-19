@@ -6,7 +6,7 @@
 /*   By: bkotwica <bkotwica@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 08:45:21 by bkotwica          #+#    #+#             */
-/*   Updated: 2024/04/18 13:52:38 by bkotwica         ###   ########.fr       */
+/*   Updated: 2024/04/19 10:46:26 by bkotwica         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,6 @@ int	mouse_hook_julia(int keycode, int x, int y, t_fract *mlx)
 		put_julia(mlx, mlx->mouse_x, mlx->mouse_y, 1.5);
 	else if (keycode == 5)
 		put_julia(mlx, mlx->mouse_x, mlx->mouse_y, 0.5);
-	// else if (keycode == 1)
-	// {
-	// 	if (x > WIDTH - 32 && x < WIDTH - 5
-	// 		&& y < -33 && y > -6)
-	// 		close_window(mlx);
-	// }
-	printf("%d %d %d\n", keycode, x, y);
 	return (0);
 }
 
@@ -105,7 +98,9 @@ int	key_hook_julia(int keycode, t_fract *mlx)
 
 int	closee(int keycode, t_fract *vars)
 {
-	mlx_destroy_window(vars->con, vars->win);
+	//printf("%d", vars->i);
+	//mlx_destroy_window(vars->con, vars->win);
+	exit (0);
 	return (0);
 }
 
@@ -124,7 +119,7 @@ void	julia_program(double x, double y)
 	mlx.addr = mlx_get_data_addr(mlx.img, &mlx.bits_per_pixel,
 			&mlx.line_length, &mlx.endian);
 	put_julia(&mlx, WIDTH / 2, HEIGHT / 2, 1);
-	mlx_hook(mlx.win, 17, 1L<<2, closee, &mlx);
+	mlx_hook(mlx.win, 17, 1L<<0, closee, &mlx);
 	mlx_mouse_hook(mlx.win, mouse_hook_julia, &mlx);
 	mlx_key_hook(mlx.win, key_hook_julia, &mlx);
 	mlx_loop(mlx.con);
