@@ -6,23 +6,21 @@
 /*   By: bkotwica <bkotwica@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 10:09:32 by bkotwica          #+#    #+#             */
-/*   Updated: 2024/04/18 12:37:38 by bkotwica         ###   ########.fr       */
+/*   Updated: 2024/04/19 14:58:03 by bkotwica         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
-#define FRACTOL_H
+# define FRACTOL_H
 
-#define HEIGHT 800
-#define WIDTH 1000
+# define HEIGHT 800
+# define WIDTH 1000
 
-#include "mlxlibX/mlx.h"
-#include <stdlib.h>
-#include <math.h>
-#include <unistd.h>
-#include <stdio.h> //DELETE
+# include "mlxlibX/mlx.h"
+# include <stdlib.h>
+# include <unistd.h>
 
-typedef struct	s_point
+typedef struct s_point
 {
 	double	i;
 	double	z;
@@ -61,6 +59,7 @@ void	draw_mandelbrot(t_fract *mlx, int x, int y);
 void	put_mandelbrot(t_fract *mlx, int x, int y, double zoom);
 int		key_hook_mandel(int keycode, t_fract *mlx);
 void	mandelbrot_program(void);
+int		mouse_hook_mandelbrot(int keycode, int x, int y, t_fract *mlx);
 
 // Julia set
 void	calculation_julia(t_fract *mlx, t_point pixel, int x, int y);
@@ -68,5 +67,6 @@ void	draw_julia(t_fract *mlx, int x, int y);
 void	put_julia(t_fract *mlx, int x, int y, double zoom);
 int		key_hook_julia(int keycode, t_fract *mlx);
 void	julia_program(double x, double y);
+int		mouse_hook_julia(int keycode, int x, int y, t_fract *mlx);
 
 #endif

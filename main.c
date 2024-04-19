@@ -6,7 +6,7 @@
 /*   By: bkotwica <bkotwica@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 09:35:53 by bkotwica          #+#    #+#             */
-/*   Updated: 2024/04/18 18:02:02 by bkotwica         ###   ########.fr       */
+/*   Updated: 2024/04/19 14:09:20 by bkotwica         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ void	run_program(int argc, char **argv)
 
 	julia = 74;
 	mandel = 77;
-	if (argv[1][0] == mandel && argv[1][1] == '\0' && argc == 2)
+	if (argc == 2 && argv[1][0] == mandel && argv[1][1] == '\0')
 		mandelbrot_program();
-	else if (argv[1][0] == julia && argv[1][1] == '\0' && argc == 8)
+	else if (argc == 8 && argv[1][0] == julia && argv[1][1] == '\0')
 	{
 		if (create_number(argv + 2) == 0 && create_number(argv + 5) == 0)
 			exit_message();

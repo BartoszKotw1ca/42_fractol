@@ -6,7 +6,7 @@
 /*   By: bkotwica <bkotwica@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 08:45:57 by bkotwica          #+#    #+#             */
-/*   Updated: 2024/04/18 18:08:48 by bkotwica         ###   ########.fr       */
+/*   Updated: 2024/04/19 14:06:54 by bkotwica         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,10 @@ void	my_mlx_pixel_put(t_fract *data, int x, int y, int color)
 
 void	close_window(t_fract *mlx)
 {
+	mlx_destroy_image(mlx->con, mlx->img);
 	mlx_destroy_window(mlx->con, mlx->win);
 	mlx_destroy_display(mlx->con);
 	free(mlx->con);
-	//free(mlx->img);
-	//free(mlx->addr);
 	exit (0);
 }
 

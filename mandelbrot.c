@@ -6,7 +6,7 @@
 /*   By: bkotwica <bkotwica@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 08:45:03 by bkotwica          #+#    #+#             */
-/*   Updated: 2024/04/18 12:19:00 by bkotwica         ###   ########.fr       */
+/*   Updated: 2024/04/19 14:54:33 by bkotwica         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,22 @@ void	put_mandelbrot(t_fract *mlx, int x, int y, double zoom)
 		mlx->img, 0, 0);
 }
 
+int	mouse_hook_mandelbrot(int keycode, int x, int y, t_fract *mlx)
+{
+	mlx->mouse_x = x;
+	mlx->mouse_y = y;
+	if (keycode == 4)
+		put_mandelbrot(mlx, mlx->mouse_x, mlx->mouse_y, 1.5);
+	else if (keycode == 5)
+		put_mandelbrot(mlx, mlx->mouse_x, mlx->mouse_y, 0.5);
+	return (0);
+}
+
 int	key_hook_mandel(int keycode, t_fract *mlx)
 {
 	mlx_mouse_get_pos(mlx->con, mlx->win, &mlx->mouse_x, &mlx->mouse_y);
 	if (keycode == 65307)
 		close_window(mlx);
-	else if (keycode == 49)
-		put_mandelbrot(mlx, mlx->mouse_x, mlx->mouse_y, 1.5);
 	else if (keycode == 100)
 		put_mandelbrot(mlx, mlx->center_x -= 10, mlx->center_y, 1);
 	else if (keycode == 97)
@@ -93,19 +102,4 @@ int	key_hook_mandel(int keycode, t_fract *mlx)
 	else if (keycode == 119)
 		put_mandelbrot(mlx, mlx->center_x, mlx->center_y += 10, 1);
 	return (0);
-}
-
-void	mandelbrot_program(void)
-{
-	t_fract	mlx;
-
-	mlx.con = mlx_init();
-	mlx.zoom = 1.0;
-	mlx.center_x = WIDTH / 2;
-	mlx.center_y = HEIGHT / 2;
-	mlx.win = mlx_new_window(mlx.con, WIDTH, HEIGHT, "fractal");
-	put_mandelbrot(&mlx, WIDTH / 2, HEIGHT / 2, 1);
-	mlx_key_hook(mlx.win, key_hook_mandel, &mlx);
-	mlx_mouse_hook(mlx.win, key_hook_mandel, &mlx);
-	mlx_loop(mlx.con);
 }
