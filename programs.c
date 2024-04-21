@@ -6,7 +6,7 @@
 /*   By: bkotwica <bkotwica@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:51:43 by bkotwica          #+#    #+#             */
-/*   Updated: 2024/04/19 14:55:41 by bkotwica         ###   ########.fr       */
+/*   Updated: 2024/04/20 10:48:39 by bkotwica         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,16 @@ void	mandelbrot_program(void)
 	mlx_key_hook(mlx.win, key_hook_mandel, &mlx);
 	mlx_loop(mlx.con);
 	close_window(&mlx);
+}
+
+int	str_len(char *str)
+{
+	int	i;
+	int	number;
+
+	number = 1;
+	i = 0;
+	while (str[i ++])
+		number *= 10;
+	return (number);
 }
