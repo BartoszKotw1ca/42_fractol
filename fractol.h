@@ -6,7 +6,7 @@
 /*   By: bkotwica <bkotwica@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 10:09:32 by bkotwica          #+#    #+#             */
-/*   Updated: 2024/04/21 13:53:22 by bkotwica         ###   ########.fr       */
+/*   Updated: 2024/04/22 11:18:29 by bkotwica         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	my_mlx_pixel_put(t_fract *data, int x, int y, int color);
 int		ft_atoi(const char *nptr);
 double	create_number(char	**argv);
 void	exit_message(void);
-int	str_len(char *str);
+int		str_len(char *str);
 
 // Mandelbrot set
 void	calculation_mandel(t_fract *mlx, t_point *c);

@@ -6,7 +6,7 @@
 /*   By: bkotwica <bkotwica@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 08:45:03 by bkotwica          #+#    #+#             */
-/*   Updated: 2024/04/19 14:54:33 by bkotwica         ###   ########.fr       */
+/*   Updated: 2024/04/22 11:31:21 by bkotwica         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	draw_mandelbrot(t_fract *mlx, int x, int y)
 	mlx->max_iter = 1000;
 	pixel.z = -1;
 	while (mlx->i++ < 256)
-		mlx->colors[mlx->i] = (mlx->i << 8);
+		mlx->colors[mlx->i] = (mlx->i * 10 << 8);
 	while (pixel.z++ < HEIGHT)
 	{
 		pixel.i = -1;
