@@ -6,12 +6,14 @@
 /*   By: bkotwica <bkotwica@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 08:45:57 by bkotwica          #+#    #+#             */
-/*   Updated: 2024/04/21 13:52:48 by bkotwica         ###   ########.fr       */
+/*   Updated: 2024/04/22 12:09:51 by bkotwica         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
+// This function puts a pixel at a specific position on the screen.
+// It calculates the address of the pixel and then sets its color.
 void	my_mlx_pixel_put(t_fract *data, int x, int y, int color)
 {
 	char	*dst;
@@ -87,10 +89,8 @@ int	ft_atoi(const char *nptr)
 
 void	exit_message(void)
 {
-	write(1, "!! INVALID DATA !!\n", 20);
-	write(1, "M = Mandelbrot set\n", 20);
-	write(1, "J sign base(before ,) mantisa(after ,) \
-sign base(before ,) mantisa(after ,) = Julia set\n", 88);
-	write(1, "Everything shoud be splited by spaces!!!\n", 41);
+	perror("!! INVALID DATA !!\nM = Mandelbrot set\nJ sign base(before ,) mantisa(after ,) \
+sign base(before ,) mantisa(after ,) = Julia set\nEverything shoud be splited by spaces!!!\n \
+");
 	exit (0);
 }

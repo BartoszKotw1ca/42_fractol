@@ -6,16 +6,19 @@
 /*   By: bkotwica <bkotwica@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 08:45:21 by bkotwica          #+#    #+#             */
-/*   Updated: 2024/04/22 11:38:56 by bkotwica         ###   ########.fr       */
+/*   Updated: 2024/04/22 12:21:54 by bkotwica         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
 // This function calculates the Julia set for a given pixel.
-// It uses the complex plane and the formula for the Julia set to calculate the color of each pixel.
-// The formula for the Julia set is z = z^2 + c, where z and c are complex numbers.
-// The function iterates this formula until the magnitude of z exceeds 4.0 or the maximum number of iterations is reached.
+// It uses the complex plane and the formula for the Julia set to 
+// calculate the color of each pixel.
+// The formula for the Julia set is z = z^2 + c, where z and c 
+// are complex numbers.
+// The function iterates this formula until the magnitude of z exceeds 
+// 4.0 or the maximum number of iterations is reached.
 void	calculation_julia(t_fract *mlx, t_point pixel, int x, int y)
 {
 	t_point	z;
@@ -37,9 +40,12 @@ void	calculation_julia(t_fract *mlx, t_point pixel, int x, int y)
 }
 
 // This function draws the Julia set on the screen.
-// It iterates over each pixel on the screen and calculates the color of the pixel using the calculation_julia function.
-// If the pixel is in the Julia set (i.e., the number of iterations reached the maximum), it is colored black.
-// Otherwise, it is colored based on the number of iterations it took to escape the set.
+// It iterates over each pixel on the screen and 
+// calculates the color of the pixel using the calculation_julia function.
+// If the pixel is in the Julia set (i.e., the number of 
+// iterations reached the maximum), it is colored black.
+// Otherwise, it is colored based on the number of iterations 
+// it took to escape the set.
 void	draw_julia(t_fract *mlx, int x, int y)
 {
 	t_point	pixel;
@@ -65,7 +71,8 @@ void	draw_julia(t_fract *mlx, int x, int y)
 }
 
 // This function updates the Julia set image with a new zoom level.
-// It creates a new image, draws the Julia set on the image with the new zoom level, and then puts the image on the window.
+// It creates a new image, draws the Julia set on the image with 
+// the new zoom level, and then puts the image on the window.
 void	put_julia(t_fract *mlx, int x, int y, double zoom)
 {
 	mlx->zoom /= zoom;
@@ -78,7 +85,8 @@ void	put_julia(t_fract *mlx, int x, int y, double zoom)
 }
 
 // This function handles mouse events for the Julia set.
-// It updates the image based on the mouse position and zooms in or out based on the mouse wheel.
+// It updates the image based on the mouse position and 
+// zooms in or out based on the mouse wheel.
 // If the mouse wheel is scrolled up (keycode 4), it zooms in.
 // If the mouse wheel is scrolled down (keycode 5), it zooms out.
 int	mouse_hook_julia(int keycode, int x, int y, t_fract *mlx)
@@ -93,7 +101,8 @@ int	mouse_hook_julia(int keycode, int x, int y, t_fract *mlx)
 }
 
 // This function handles keyboard events for the Julia set.
-// It allows the user to move the image using the keyboard and to close the window.
+// It allows the user to move the image using the 
+// keyboard and to close the window.
 // If the escape key (keycode 65307) is pressed, it closes the window.
 // If the 'd' key (keycode 100) is pressed, it moves the image to the right.
 // If the 'a' key (keycode 97) is pressed, it moves the image to the left.

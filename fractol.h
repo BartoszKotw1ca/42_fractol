@@ -6,7 +6,7 @@
 /*   By: bkotwica <bkotwica@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 10:09:32 by bkotwica          #+#    #+#             */
-/*   Updated: 2024/04/22 11:18:29 by bkotwica         ###   ########.fr       */
+/*   Updated: 2024/04/22 11:56:05 by bkotwica         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include "mlxlibX/mlx.h"
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdio.h>
 
 typedef struct s_point
 {
