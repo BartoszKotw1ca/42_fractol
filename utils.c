@@ -6,7 +6,7 @@
 /*   By: bkotwica <bkotwica@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 08:45:57 by bkotwica          #+#    #+#             */
-/*   Updated: 2024/04/19 14:06:54 by bkotwica         ###   ########.fr       */
+/*   Updated: 2024/04/21 13:52:48 by bkotwica         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,16 @@ double	create_number(char	**argv)
 
 	dzielnik = 1;
 	number = ft_atoi(argv[2]);
-	if (!number)
-		return (0);
 	tmp = number;
 	while (tmp)
 	{
 		tmp /= 10;
 		dzielnik *= 10;
 	}
-	number /= dzielnik;
+	if (str_len(argv[2]) / dzielnik != 0)
+		number /= str_len(argv[2]);
+	else
+		number /= dzielnik;
 	number += ft_atoi(argv[1]);
 	if (argv[0][0] == '-' && argv[0][1] == '\0')
 		number *= -1;
