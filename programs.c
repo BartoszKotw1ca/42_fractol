@@ -6,7 +6,7 @@
 /*   By: bkotwica <bkotwica@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:51:43 by bkotwica          #+#    #+#             */
-/*   Updated: 2024/04/20 10:48:39 by bkotwica         ###   ########.fr       */
+/*   Updated: 2024/04/23 10:43:54 by bkotwica         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,16 @@ int	str_len(char *str)
 	while (str[i ++])
 		number *= 10;
 	return (number);
+}
+
+void	destory_and_put_mandel(t_fract *mlx, int x, int y, double zoom)
+{
+	mlx_destroy_image(mlx->con, mlx->img);
+	put_mandelbrot(mlx, x, y, zoom);
+}
+
+void	destroy_and_put_julia(t_fract *mlx, int x, int y, double zoom)
+{
+	mlx_destroy_image(mlx->con, mlx->img);
+	put_julia(mlx, x, y, zoom);
 }

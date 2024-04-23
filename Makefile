@@ -1,4 +1,4 @@
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g
 NAME = fractol
 OBJDIR = Obj/
 MLX = mlxlibX/libmlx_Linux.a
