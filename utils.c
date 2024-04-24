@@ -6,7 +6,7 @@
 /*   By: bkotwica <bkotwica@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 08:45:57 by bkotwica          #+#    #+#             */
-/*   Updated: 2024/04/22 12:09:51 by bkotwica         ###   ########.fr       */
+/*   Updated: 2024/04/24 13:02:01 by bkotwica         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,34 +29,6 @@ void	close_window(t_fract *mlx)
 	mlx_destroy_display(mlx->con);
 	free(mlx->con);
 	exit (0);
-}
-
-double	create_number(char	**argv)
-{
-	double	number;
-	int		tmp;
-	int		dzielnik;
-
-	dzielnik = 1;
-	number = ft_atoi(argv[2]);
-	tmp = number;
-	while (tmp)
-	{
-		tmp /= 10;
-		dzielnik *= 10;
-	}
-	if (str_len(argv[2]) / dzielnik != 0)
-		number /= str_len(argv[2]);
-	else
-		number /= dzielnik;
-	number += ft_atoi(argv[1]);
-	if (argv[0][0] == '-' && argv[0][1] == '\0')
-		number *= -1;
-	else if (argv[0][0] == '+' && argv[0][1] == '\0')
-		number *= 1;
-	else
-		return (0);
-	return (number);
 }
 
 int	ft_atoi(const char *nptr)

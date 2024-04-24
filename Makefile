@@ -2,7 +2,7 @@ FLAGS = -Wall -Wextra -Werror -g
 NAME = fractol
 OBJDIR = Obj/
 MLX = mlxlibX/libmlx_Linux.a
-SRC = main.c julia.c utils.c mandelbrot.c programs.c
+SRC = main.c julia.c utils.c mandelbrot.c programs.c check_data.c
 
 OBJ := $(SRC:%.c=$(OBJDIR)%.o)
 

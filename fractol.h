@@ -6,7 +6,7 @@
 /*   By: bkotwica <bkotwica@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 10:09:32 by bkotwica          #+#    #+#             */
-/*   Updated: 2024/04/23 10:40:20 by bkotwica         ###   ########.fr       */
+/*   Updated: 2024/04/24 13:03:04 by bkotwica         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@ void	exit_message(void);
 int		str_len(char *str);
 void	destory_and_put_mandel(t_fract *mlx, int x, int y, double zoom);
 void	destroy_and_put_julia(t_fract *mlx, int x, int y, double zoom);
+int		if_sign(char *str);
+int		if_num(char *str);
+void	run_program(int argc, char **argv);
 
 // Mandelbrot set
 void	calculation_mandel(t_fract *mlx, t_point *c);
